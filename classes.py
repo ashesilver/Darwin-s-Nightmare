@@ -347,7 +347,7 @@ class jourNuit():
         self.coords = (PROGRAM_WIDTH//2, PROGRAM_HEIGHT//2)
         self.rad = PROGRAM_HEIGHT//16
         self.rad_final = PROGRAM_HEIGHT//self.rad
-        self.border = None  # au debut, pas de border
+        self.border = pygame.Surface((PROGRAM_WIDTH, PROGRAM_HEIGHT))
         self.time = time.time()
         self.night_time = None  # pas de nuit au debut
         self.night_start = 2
@@ -390,7 +390,7 @@ class jourNuit():
             self.day_time = time.time()
         if int(2*time.time()) > int(2*self.day_time):
             #print(int(time.time()), int(self.day_time))
-            pygame.Surface((PROGRAM_WIDTH, PROGRAM_HEIGHT))
+            self.border = pygame.Surface((PROGRAM_WIDTH, PROGRAM_HEIGHT))
             self.rad_final += self.rad
             self.border.fill(SEMI_GREY)
             pygame.draw.circle(self.border, WHITE, self.coords, self.rad_final)
