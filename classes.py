@@ -1,6 +1,5 @@
 from init import *
 
-
 # ===== constants =====
 
 
@@ -10,6 +9,9 @@ img_dir = os.path.join(path.dirname(__file__), "data/images")
 snd_dir = os.path.join(path.dirname(__file__), "data/sounds")
 
 TILESIZE = 128
+
+#sounds
+ZOMBIE_ROAR = ['zombie-roar-1.ogg','zombie-roar-2.ogg','zombie-roar-3.ogg']
 
 # images
 player_lives1 = pygame.image.load(path.join(img_dir, "heart.png")).convert_alpha()
@@ -810,6 +812,11 @@ class Zombie(swapcore.kernel.Area):
         self._lives = 3
         self.id = None  # initialized by zombie spawn
         self.timer = 0
+        self.zombie_sounds = []
+        for snd in ZOMBIE_ROAR:
+            s = pygame.mixer.Sound(path.join(snd_dir, snd))
+            s.set_volume(0.2)
+            self.zombie_sounds.append(s)
 
     def follow(self):
         if time.time() - self.last_move < self.repeat_move:
@@ -822,6 +829,8 @@ class Zombie(swapcore.kernel.Area):
             width = (px - self.x)
             height = (py - self.y)
             self.last_move = time.time()
+            if random.random() < 0.1:
+                random.choice(self.zombie_sounds).play()
             if self.last_direction % 2 or not height or \
               (self.top_is_wall if height < 0 else self.bottom_is_wall):
                 if width > 0 and not self.right_is_wall:
